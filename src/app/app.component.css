@@ -1,0 +1,15 @@
+html, body {
+  background: rgb(198 237 211);
+}
+ 
+h1 {
+  font-size: 4rem;
+  font-style: bold;
+}
+
+main.mainWrapper {
+  min-width: 25rem;
+  min-height: 35rem;
+  padding: 2rem;
+  background-color: rgb(198 237 211);
+}
