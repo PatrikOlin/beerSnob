@@ -15,7 +15,7 @@
           "options": {
             "customWebpackConfig": {
               "path": "./custom-webpack.config.js"
-            },
+            },   
             "outputPath": "dist/untappdbolaget",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -33,6 +33,11 @@
             "scripts": []
           },
           "configurations": {
+            "dev": {
+              "customWebpackConfig": {
+                "path": "./custom-webpack-dev.config.js"
+              }
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -60,7 +65,7 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
+            },
           }
         },
         "serve": {
