@@ -1,0 +1,19 @@
+{
+  "name": "untappdbolaget",
+  "version": "0.1",
+  "description": "Bira bira bira, bärs bärs beige?",
+  "manifest_version": 2,
+  "permissions": [
+    "activeTab",
+    "webNavigation"
+  ],
+  "background": {
+    "scripts": [
+      "background.js",
+      "runtime.js"
+    ]
+  },
+  "page_action": {
+    "default_popup": "index.html"
+  }
+}
