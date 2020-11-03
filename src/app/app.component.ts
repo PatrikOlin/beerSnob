@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,28 +7,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title = 'untappdbolaget';
-  beerName = 'testbärs';
+  public beerName: string;
 
-  constructor() {}
+  constructor(private ngZone: NgZone) {}
                       
   ngOnInit() {
-    this.getBeerFromPage(this._getName)
+    this.getBeerFromPage();
   }
                       
-  getBeerFromPage(callback) {
+   getBeerFromPage() {
     let name = 'kuken'; 
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      const url = tabs[0].url;
-      const urls = url.split('/');
-      name = urls[urls.length - 2];    
-      callback(name)
-    });
+      if (tabs[0]) {
+      const name = tabs[0].title.split('|')[0];              
+        this.ngZone.run(() => this.beerName = name)
+      }
+    });      
   }
 
-  _getName(name){
-    alert(name)
-    this.beerName = name;       
-  }
 }
                       
                       
