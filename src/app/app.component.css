@@ -1,15 +1,45 @@
-html, body {
+html,
+body {
   background: rgb(198 237 211);
 }
- 
+
 h1 {
-  font-size: 4rem;
-  font-style: bold;
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+h3 {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.ratingContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.rating {
+  font-size: 8rem;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.ratingCount {
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 main.mainWrapper {
   min-width: 25rem;
   min-height: 35rem;
+  height: 100%;
   padding: 2rem;
   background-color: rgb(198 237 211);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
