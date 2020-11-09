@@ -1,16 +1,26 @@
 <main class="mainWrapper">
   <h1>{{ title }}</h1>
-  <section>
-    <h3>
-      {{ beerName }}
-    </h3>
-  </section>
-  <section class="ratingContainer">
-    <p class="rating">{{ beerRating | number: "1.1-1" }}</p>
-    <p *ngIf="beerRatingCount" class="ratingCount">
-      {{ beerRatingCount }} votes
-    </p>
-  </section>
+  <ng-container *ngIf="!hasError">
+    <section>
+      <h3>
+        {{ beerName }}
+      </h3>
+    </section>
+    <section class="ratingContainer">
+      <p class="rating">{{ beerRating | number: "1.1-1" }}</p>
+      <p *ngIf="beerRatingCount" class="ratingCount">
+        {{ beerRatingCount }} votes
+      </p>
+    </section>
+  </ng-container>
+  <ng-container *ngIf="hasError">
+    <section>
+      <h3>
+        {{ errorMsg }}
+      </h3>
+    </section>
+  </ng-container>
+
   <button *ngIf="!authHTML" (click)="authUser()">auth</button>
   <section *ngIf="authHTML" [innerHTML]="authHTML"></section>
 </main>

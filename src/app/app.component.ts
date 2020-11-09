@@ -1,7 +1,8 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UntappdCallerService } from './services/untappd-caller.service';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,8 @@ export class AppComponent implements OnInit {
   public beerRating: number;
   public beerRatingCount: number;
   public authHTML = '';
+  public errorMsg = '';
+  public hasError = false;
 
   constructor(private ngZone: NgZone, private untappd: UntappdCallerService) {}
 
@@ -37,9 +40,18 @@ export class AppComponent implements OnInit {
       .pipe(
         switchMap((res) =>
           this.untappd.getBeerRating(res.response.beers.items[0].beer.bid)
-        )
+        ),
+        catchError((e) => {
+          this.ngZone.run(() => {
+            this.hasError = true;
+            this.errorMsg = `Kunde inte hitta ${name}`;
+          });
+          return throwError(e);
+        })
       )
       .subscribe((res) => {
+        this.hasError = false;
+        this.errorMsg = '';
         const rating = res.response.beer.rating_score;
         const ratingCount = res.response.beer.rating_count;
 
@@ -62,3 +74,9 @@ export class AppComponent implements OnInit {
     });
   }
 }
+
+// if (res?.response?.beers?.items[0]?.beer) {
+//   this.noBeerFound = false;
+// } else {
+//   this.noBeerFound = true;
+// }
