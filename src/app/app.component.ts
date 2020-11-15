@@ -1,3 +1,4 @@
+///<reference types="chrome"/>
 import { Component, NgZone, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UntappdCallerService } from './services/untappd-caller.service';
@@ -17,12 +18,20 @@ export class AppComponent implements OnInit {
   public authHTML = '';
   public errorMsg = '';
   public hasError = false;
+  public accessToken = 'bajs';
 
   constructor(private ngZone: NgZone, private untappd: UntappdCallerService) {}
 
   ngOnInit() {
-    // this.untappd.authUser().subscribe((res) => console.log(res));
-    this.getBeerFromPage();
+    this.getAccessTokenFromStorage();
+      // this.getBeerFromPage();
+  }
+
+  getAccessTokenFromStorage() {
+    chrome.storage.local.get(['accessToken'], function(result) {
+      this.accessToken = result.accessToken;
+      alert(this.accessToken)
+    });
   }
 
   getBeerFromPage() {
@@ -67,11 +76,18 @@ export class AppComponent implements OnInit {
   }
 
   authUser() {
-    this.untappd.authUser().subscribe((res) => {
-      this.ngZone.run(() => {
-        this.authHTML = res;
-      });
-    });
+    chrome.runtime.sendMessage({ message: 'login' }, function (response) {
+      if (response === 'auth success') {
+        console.log('success in app comp');
+        chrome.storage.local.get(['accessToken'], function(result) {
+          console.log('accessToken is', result);
+        });
+      }});
+    // this.untappd.authUser().subscribe((res) => {
+    //   this.ngZone.run(() => {
+    //     this.authHTML = res;
+    //   });
+    // });
   }
 }
 
