@@ -1,9 +1,8 @@
 ///<reference types="chrome"/>
 import { Component, NgZone, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { UntappdCallerService } from './services/untappd-caller.service';
 import { catchError, switchMap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,26 +10,81 @@ import { throwError } from 'rxjs';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'untappdbolaget';
+  title = 'Ölbolaget';
   public beerName: string;
   public beerRating: number;
   public beerRatingCount: number;
   public authHTML = '';
   public errorMsg = '';
   public hasError = false;
-  public accessToken = 'bajs';
+  private _accessToken = new Subject<string>();
+  public accessToken = null; 
+  private _isSignedIn = new BehaviorSubject<boolean>(false);
+  public isSignedIn = false;
+  private _bkg;
+  public user: any;
 
-  constructor(private ngZone: NgZone, private untappd: UntappdCallerService) {}
-
-  ngOnInit() {
-    this.getAccessTokenFromStorage();
-      // this.getBeerFromPage();
+  constructor(private ngZone: NgZone, private untappd: UntappdCallerService) {
+    this._bkg = chrome.extension.getBackgroundPage();
   }
 
-  getAccessTokenFromStorage() {
-    chrome.storage.local.get(['accessToken'], function(result) {
-      this.accessToken = result.accessToken;
-      alert(this.accessToken)
+
+  ngOnInit() {
+    this.getSignedInStatus().subscribe((res) => {
+      this.ngZone.run(() => {
+        this.isSignedIn = res;
+
+        if (this.isSignedIn) {
+          this.getAccessTokenFromStorage().subscribe((res) => {
+            this.untappd.token = res;
+            this.getUserInfo();
+            this.getBeerFromPage();
+          });
+        }
+      });
+    });
+  }
+
+  getSignedInStatus(): Observable<boolean> {
+    chrome.storage.sync.get(['signedIn'], (res) => {
+      this._isSignedIn.next(res.signedIn);
+    });
+    return this._isSignedIn.asObservable();
+  }
+
+  getAccessTokenFromStorage(): Observable<string> {
+    chrome.storage.sync.get(['accessToken'], (res) => {
+     this._accessToken.next(res.accessToken); 
+    });
+    return this._accessToken.asObservable();
+  }
+
+  forceLoginRefresh() {
+    this.ngZone.run(() => {
+      this.isSignedIn = false;
+      this.hasError = false;
+    });
+  }
+
+  getUserInfo() {
+    this.untappd.getUser().subscribe((res: any) => {
+      if (res?.meta?.code === 200) {
+      this.ngZone.run(() => {
+        const usr = res.response.user;
+        const recent = usr.recent_brews.items.map((x: any) => {
+          return { bid: x.beer.bid, name: x.beer.beer_name };
+        });
+        this.user = {
+          userName: usr.user_name,
+          firstName: usr.first_name,
+          lastName: usr.last_name,
+          stats: {
+            totalBeers: usr.stats.total_beers
+          },
+          recent_brews: [...recent],
+       };
+      });
+      }
     });
   }
 
