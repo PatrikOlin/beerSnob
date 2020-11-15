@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run ng build --watch --configuration=dev to build extension and start hot reload server for development.
+Run `ng build --watch --configuration=dev` to build extension and start hot reload server for development.
 
 ## Code scaffolding
 
