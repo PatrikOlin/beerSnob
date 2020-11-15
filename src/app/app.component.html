@@ -7,9 +7,12 @@
       </h3>
     </section>
     <section class="ratingContainer">
-      <p class="rating">{{ beerRating | number: "1.1-1" }}</p>
+      <p class="rating">{{ beerRating | number: "1.1-2" }}</p>
       <p *ngIf="beerRatingCount" class="ratingCount">
         {{ beerRatingCount }} votes
+      </p>
+      <p *ngIf="beerStyle" class="ratingCount">
+        {{ beerStyle}}
       </p>
     </section>
   </ng-container>

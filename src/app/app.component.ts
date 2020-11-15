@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   public beerName: string;
   public beerRating: number;
   public beerRatingCount: number;
+  public beerStyle: string;
   public authHTML = '';
   public errorMsg = '';
   public hasError = false;
@@ -54,6 +55,7 @@ export class AppComponent implements OnInit {
         this.errorMsg = '';
         const rating = res.response.beer.rating_score;
         const ratingCount = res.response.beer.rating_count;
+        const style = res.response.beer.beer_style;
 
         chrome.browserAction.setBadgeText({
           text: rating.toFixed(1),
@@ -62,6 +64,7 @@ export class AppComponent implements OnInit {
           this.beerName = name;
           this.beerRating = rating;
           this.beerRatingCount = ratingCount;
+          this.beerStyle = style;
         });
       });
   }
