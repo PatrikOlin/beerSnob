@@ -15,11 +15,14 @@ export class AppComponent implements OnInit {
   public beerRating: number;
   public beerRatingCount: number;
   public beerStyle: string;
+  public ownCheckins: number;
+  public ownRating: number;
+  public isOnWishlist: boolean;
   public authHTML = '';
   public errorMsg = '';
   public hasError = false;
   private _accessToken = new Subject<string>();
-  public accessToken = null; 
+  public accessToken = null;
   private _isSignedIn = new BehaviorSubject<boolean>(false);
   public isSignedIn = false;
   private _bkg;
@@ -28,7 +31,6 @@ export class AppComponent implements OnInit {
   constructor(private ngZone: NgZone, private untappd: UntappdCallerService) {
     this._bkg = chrome.extension.getBackgroundPage();
   }
-
 
   ngOnInit() {
     this.getSignedInStatus().subscribe((res) => {
@@ -55,7 +57,7 @@ export class AppComponent implements OnInit {
 
   getAccessTokenFromStorage(): Observable<string> {
     chrome.storage.sync.get(['accessToken'], (res) => {
-     this._accessToken.next(res.accessToken); 
+      this._accessToken.next(res.accessToken);
     });
     return this._accessToken.asObservable();
   }
@@ -70,21 +72,21 @@ export class AppComponent implements OnInit {
   getUserInfo() {
     this.untappd.getUser().subscribe((res: any) => {
       if (res?.meta?.code === 200) {
-      this.ngZone.run(() => {
-        const usr = res.response.user;
-        const recent = usr.recent_brews.items.map((x: any) => {
-          return { bid: x.beer.bid, name: x.beer.beer_name };
+        this.ngZone.run(() => {
+          const usr = res.response.user;
+          const recent = usr.recent_brews.items.map((x: any) => {
+            return { bid: x.beer.bid, name: x.beer.beer_name };
+          });
+          this.user = {
+            userName: usr.user_name,
+            firstName: usr.first_name,
+            lastName: usr.last_name,
+            stats: {
+              totalBeers: usr.stats.total_beers,
+            },
+            recent_brews: [...recent],
+          };
         });
-        this.user = {
-          userName: usr.user_name,
-          firstName: usr.first_name,
-          lastName: usr.last_name,
-          stats: {
-            totalBeers: usr.stats.total_beers
-          },
-          recent_brews: [...recent],
-       };
-      });
       }
     });
   }
@@ -119,6 +121,9 @@ export class AppComponent implements OnInit {
         const rating = res.response.beer.rating_score;
         const ratingCount = res.response.beer.rating_count;
         const style = res.response.beer.beer_style;
+        const checkins = res.response.beer.stats.user_count;
+        const authRating = res.response.beer.auth_rating;
+        const onWishList = res.response.beer.wish_list;
 
         chrome.browserAction.setBadgeText({
           text: rating.toFixed(1),
@@ -128,6 +133,9 @@ export class AppComponent implements OnInit {
           this.beerRating = rating;
           this.beerRatingCount = ratingCount;
           this.beerStyle = style;
+          this.ownCheckins = checkins;
+          this.ownRating = authRating;
+          this.isOnWishlist = onWishList;
         });
       });
   }
@@ -136,10 +144,11 @@ export class AppComponent implements OnInit {
     chrome.runtime.sendMessage({ message: 'login' }, function (response) {
       if (response === 'auth success') {
         console.log('success in app comp');
-        chrome.storage.local.get(['accessToken'], function(result) {
+        chrome.storage.local.get(['accessToken'], function (result) {
           console.log('accessToken is', result);
         });
-      }});
+      }
+    });
     // this.untappd.authUser().subscribe((res) => {
     //   this.ngZone.run(() => {
     //     this.authHTML = res;
