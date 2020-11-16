@@ -1,9 +1,17 @@
 {
-  "name": "untappdbolaget",
+  "name": "ölbolaget",
   "version": "0.1",
-  "description": "Bira bira bira, bärs bärs beige?",
+  "description": "Bira pirra Birro, bärs bärs beige?",
   "manifest_version": 2,
-  "permissions": ["tabs", "activeTab", "webNavigation", "identity", "storage", "https://*/*"],
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "webNavigation",
+    "identity",
+    "storage",
+    "https://*/*"
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAy7wA6tTlaShsHtYTDTiBbVq2XfMRaLCQU4cVL95HZBHQcY1h9h5eOwUkB8EtozBhm+uOqQDpNCrU2TmrQ5tFAMSgfbh7PIYHextQOphXFQWhJzR4i4eRQ10kEqlDAw+WCerfOGZo4WXXPCCRiQ5e9rH9UU8guVWW81vClqozdrRB0SUT+DyQh56g0GNLu5qmACjzSlgE9WkWyHbNf/W1YlxMw7JdZh9WIMBk/ISLJcHKOb5Zm3V+bTtTTRX04XJ7X+7iFbIZSaIgzQGMpvQMWJ4ivqDh2IAFooiBR2Du5sj2+pk9DEXh5QGNOOx4LYtBo58qPxzCwF4SFYu0Fzs27wIDAQAB",
   "background": {
     "scripts": ["background.js", "runtime.js"]
   },

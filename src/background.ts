@@ -1,11 +1,11 @@
-
 const UNTAPPD_URI_ENDPOINT = 'https://untappd.com/oauth/authenticate/';
-const CLIENT_ID = encodeURIComponent('60EA0F09B7ED329F256781F5D96FC29F5F8F15C4');
+const CLIENT_ID = encodeURIComponent(
+  '60EA0F09B7ED329F256781F5D96FC29F5F8F15C4'
+);
 const RESPONSE_TYPE = encodeURIComponent('code');
-const REDIRECT_URI = encodeURIComponent('https://pjffaopljddfnmiffhookcockieikddm.chromiumapp.org/untappdbolaget')
-
-let userSignedIn = false;
-
+const REDIRECT_URI = encodeURIComponent(
+  'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/untappdbolaget'
+);
 
 function create_auth_endpoint(): string {
   const endpointUrl = `${UNTAPPD_URI_ENDPOINT}
@@ -26,21 +26,24 @@ function extract_access_code(url: string): string {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === 'login') {
-    chrome.identity.launchWebAuthFlow({
-      url: create_auth_endpoint(),
-      interactive: true,
-    }, (redirectUri) => {
-      if (chrome.runtime.lastError || redirectUri.includes('access_denied')) {
-        console.log('could not authenticate');
-        sendResponse({success: false, message: 'authentication failed'});
-      } else {
-        userSignedIn = true;
-        chrome.storage.sync.set({signedIn: userSignedIn}, () => {
-          console.log('signedIn set in storage');
-        });
-        sendResponse({success: true, code: extract_access_code(redirectUri), message: 'auth successful'});
+    chrome.identity.launchWebAuthFlow(
+      {
+        url: create_auth_endpoint(),
+        interactive: true,
+      },
+      (redirectUri) => {
+        if (chrome.runtime.lastError || redirectUri.includes('access_denied')) {
+          console.log('could not authenticate');
+          sendResponse({ success: false, message: 'authentication failed' });
+        } else {
+          sendResponse({
+            success: true,
+            code: extract_access_code(redirectUri),
+            message: 'auth successful',
+          });
+        }
       }
-    });
+    );
     return true;
   }
 });
