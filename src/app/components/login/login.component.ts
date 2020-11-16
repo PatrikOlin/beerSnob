@@ -19,7 +19,10 @@ export class LoginComponent {
       if (response.success) {
         console.log('success in app comp');
         this.untappd.authorizeUser(response.code).subscribe((res: any) => {
-          console.log(res)
+          const userSignedIn = true;
+          chrome.storage.sync.set({ signedIn: userSignedIn }, () => {
+            console.log('signedIn set in storage');
+          });
           const token = res?.response?.access_token;
           chrome.storage.sync.set({accessToken: token});
         });

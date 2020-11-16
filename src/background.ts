@@ -7,8 +7,6 @@ const REDIRECT_URI = encodeURIComponent(
   'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/untappdbolaget'
 );
 
-let userSignedIn = false;
-
 function create_auth_endpoint(): string {
   const endpointUrl = `${UNTAPPD_URI_ENDPOINT}
 ?client_id=${CLIENT_ID}
@@ -35,13 +33,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       },
       (redirectUri) => {
         if (chrome.runtime.lastError || redirectUri.includes('access_denied')) {
-          console.log('could not authenticat', redirectUri);
+          console.log('could not authenticate');
           sendResponse({ success: false, message: 'authentication failed' });
         } else {
-          userSignedIn = true;
-          chrome.storage.sync.set({ signedIn: userSignedIn }, () => {
-            console.log('signedIn set in storage');
-          });
           sendResponse({
             success: true,
             code: extract_access_code(redirectUri),
