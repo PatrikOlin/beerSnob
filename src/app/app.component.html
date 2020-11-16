@@ -14,7 +14,7 @@
       </p>
       <p class="ratingCount">Checked in by You {{ ownCheckins }} times</p>
       <p *ngIf="ownRating" class="ratingCount">{{ ownRating }}</p>
-      <p *ngIf="isOnWishlist" class="ratingCount">Is on your wish list</p>
+      <app-wishlist [bid]="bid" [onWishlist]="isOnWishlist"></app-wishlist>
       <p *ngIf="beerStyle" class="ratingCount">
         {{ beerStyle }}
       </p>

@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'Ölbolaget';
   public beerName: string;
+  public bid: number;
   public beerRating: number;
   public beerRatingCount: number;
   public beerStyle: string;
@@ -118,12 +119,14 @@ export class AppComponent implements OnInit {
       .subscribe((res) => {
         this.hasError = false;
         this.errorMsg = '';
-        const rating = res.response.beer.rating_score;
-        const ratingCount = res.response.beer.rating_count;
-        const style = res.response.beer.beer_style;
-        const checkins = res.response.beer.stats.user_count;
-        const authRating = res.response.beer.auth_rating;
-        const onWishList = res.response.beer.wish_list;
+        const resp = res.response.beer;
+        const rating = resp.rating_score;
+        const ratingCount = resp.rating_count;
+        const style = resp.beer_style;
+        const checkins = resp.stats.user_count;
+        const authRating = resp.auth_rating;
+        const onWishList = resp.wish_list;
+        const bid = resp.bid;
 
         chrome.browserAction.setBadgeText({
           text: rating.toFixed(1),
@@ -136,6 +139,7 @@ export class AppComponent implements OnInit {
           this.ownCheckins = checkins;
           this.ownRating = authRating;
           this.isOnWishlist = onWishList;
+          this.bid = bid;
         });
       });
   }
