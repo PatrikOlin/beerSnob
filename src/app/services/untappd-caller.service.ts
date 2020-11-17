@@ -54,6 +54,26 @@ export class UntappdCallerService {
     return this.http.get(url, { params });
   }
 
+  addToWishlist(bid: number): Observable<any> {
+    const url = `${this.baseurl}/user/wishlist/add`;
+    const paramsObj = { access_token: this._token, bid: bid.toString() };
+    const params = new HttpParams({
+      fromObject: paramsObj
+    });
+
+    return this.http.get(url, { params });
+  }
+
+  removeFromWishlist(bid: number): Observable<any> {
+    const url = `${this.baseurl}/user/wishlist/delete`;
+    const paramsObj = { access_token: this._token, bid: bid.toString() };
+    const params = new HttpParams({
+      fromObject: paramsObj
+    });
+
+    return this.http.get(url, { params });
+  }
+
   authorizeUser(code): Observable<any> {
     const url = `https://untappd.com/oauth/authorize/`;
     const paramsObj = {
