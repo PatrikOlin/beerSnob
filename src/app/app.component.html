@@ -1,6 +1,6 @@
 <main class="mainWrapper">
-  <h1>{{ title }}</h1>
-  <h4 *ngIf="user">Welcome {{ user.firstName }}</h4>
+<app-top-bar [username]="user?.user_name"></app-top-bar>
+<section class="mainContainer">
   <ng-container *ngIf="!hasError && isSignedIn">
     <section>
       <h3>
@@ -31,4 +31,5 @@
       </h3>
     </section>
   </ng-container>
+</section>
 </main>
