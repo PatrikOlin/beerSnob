@@ -3,6 +3,7 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { UntappdCallerService } from './services/untappd-caller.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import Beer from './interfaces/beer';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,7 @@ import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   title = 'Ölbolaget';
-  public beerName: string;
-  public bid: number;
-  public beerRating: number;
-  public beerRatingCount: number;
-  public beerStyle: string;
+  public beer: Beer;
   public ownCheckins: number;
   public ownRating: number;
   public isOnWishlist: boolean;
@@ -95,15 +92,15 @@ export class AppComponent implements OnInit {
   getBeerFromPage() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]) {
-        const name = tabs[0].title.split('|')[0];
-        this.getBeerRating(name);
+        const query = tabs[0].title.split('|')[0];
+        this.getBeerRating(query);
       }
     });
   }
 
-  getBeerRating(name: string) {
+  getBeerRating(query: string) {
     this.untappd
-      .searchBeer(name)
+      .searchBeer(query)
       .pipe(
         switchMap((res) =>
           this.untappd.getBeerRating(res.response.beers.items[0].beer.bid)
@@ -120,6 +117,8 @@ export class AppComponent implements OnInit {
         this.hasError = false;
         this.errorMsg = '';
         const resp = res.response.beer;
+        const name = resp.beer_name;
+        const brewery = resp.brewery.brewery_name;
         const rating = resp.rating_score;
         const ratingCount = resp.rating_count;
         const style = resp.beer_style;
@@ -132,14 +131,17 @@ export class AppComponent implements OnInit {
           text: rating.toFixed(1),
         });
         this.ngZone.run(() => {
-          this.beerName = name;
-          this.beerRating = rating;
-          this.beerRatingCount = ratingCount;
-          this.beerStyle = style;
+          this.beer = {
+            bid,
+            name,
+            brewery,
+            rating,
+            ratingCount,
+            style
+          };
           this.ownCheckins = checkins;
           this.ownRating = authRating;
           this.isOnWishlist = onWishList;
-          this.bid = bid;
         });
       });
   }

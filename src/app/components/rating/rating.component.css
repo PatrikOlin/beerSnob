@@ -1,0 +1,40 @@
+:host {
+  width: 100%;
+}
+
+.ratingContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.ratingContainer h3 {
+  color: var(--pink);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.rating {
+  color: var(--pink);
+  font-size: 96px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.brewery {
+  font-size: 18px;
+  margin-bottom: 0;
+}
+
+.ratingCount {
+  font-size: 14px;
+  margin-bottom: 0;
+}

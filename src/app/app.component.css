@@ -1,22 +1,3 @@
-.ratingContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.rating {
-  font-size: 8rem;
-  font-weight: 800;
-  text-align: center;
-  line-height: 1;
-  padding: 0;
-  margin: 0;
-}
-
-.ratingCount {
-  font-size: 1.5rem;
-  text-align: center;
-}
-
 main.mainWrapper {
   min-width: 300px;
   min-height: 450px;

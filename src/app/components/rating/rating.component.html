@@ -1,0 +1,17 @@
+<main class="ratingWrapper">
+  <section class="ratingContainer">
+    <h3>
+      {{ beer?.name }}
+    </h3>
+    <p *ngIf="beer?.brewery" class="brewery">
+      {{ beer.brewery }}
+    </p>
+    <p *ngIf="beer?.style" class="ratingCount">
+      {{ beer.style }}
+    </p>
+    <p class="rating">{{ beer?.rating | number: "1.1-2" }}</p>
+    <p *ngIf="beer?.ratingCount" class="ratingCount">
+      {{ beer.ratingCount }} röster
+    </p>
+  </section>
+</main>

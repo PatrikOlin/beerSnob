@@ -7,9 +7,17 @@ import { LoginComponent } from './components/login/login.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { WishlistIconComponent } from './components/wishlist/components/wishlist-icon/wishlist-icon.component';
+import { RatingComponent } from './components/rating/rating.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, WishlistComponent, WishlistIconComponent, TopBarComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    WishlistComponent,
+    WishlistIconComponent,
+    TopBarComponent,
+    RatingComponent
+  ],
   imports: [BrowserModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
