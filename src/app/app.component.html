@@ -1,13 +1,15 @@
 <main class="mainWrapper">
 <app-top-bar [username]="user?.userName"></app-top-bar>
 <section class="mainContainer">
+  <aside class="wishlistContainer">
+  <app-wishlist [bid]="beer?.bid" [onWishlist]="isOnWishlist"></app-wishlist>
+  </aside>
   <ng-container *ngIf="!hasError && isSignedIn">
     <app-rating [beer]="beer"></app-rating>
     <app-action-bar
       [friendsCheckins]="friendsCheckins"
       [ownRating]="ownRating"
       [ownCheckins]="ownCheckins"
-      [bid]="beer?.bid"
     >
     </app-action-bar>
   </ng-container>

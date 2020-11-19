@@ -60,32 +60,31 @@ export class AppComponent implements OnInit {
     return this._accessToken.asObservable();
   }
 
-  forceLoginRefresh() {
-    this.ngZone.run(() => {
-      this.isSignedIn = false;
-      this.hasError = false;
-    });
-  }
-
   getUserInfo() {
-    this.untappd.getUser().subscribe((res: any) => {
-      if (res?.meta?.code === 200) {
-        this.ngZone.run(() => {
-          const usr = res.response.user;
-          const recent = usr.recent_brews.items.map((x: any) => {
-            return { bid: x.beer.bid, name: x.beer.beer_name };
-          });
-          this.user = {
-            userName: usr.user_name,
-            firstName: usr.first_name,
-            lastName: usr.last_name,
-            stats: {
-              totalBeers: usr.stats.total_beers,
-            },
-            recent_brews: [...recent],
-          };
-          console.log('user', this.user)
+    chrome.storage.sync.get(['user'], (res) => {
+      if (!res) {
+        this.untappd.getUser().subscribe((res: any) => {
+          if (res?.meta?.code === 200) {
+            this.ngZone.run(() => {
+              const usr = res.response.user;
+              const recent = usr.recent_brews.items.map((x: any) => {
+                return { bid: x.beer.bid, name: x.beer.beer_name };
+              });
+              this.user = {
+                userName: usr.user_name,
+                firstName: usr.first_name,
+                lastName: usr.last_name,
+                stats: {
+                  totalBeers: usr.stats.total_beers,
+                },
+                recent_brews: [...recent],
+              };
+              chrome.storage.sync.set({ user: this.user });
+            });
+          }
         });
+      } else {
+        this.user = res.user;
       }
     });
   }

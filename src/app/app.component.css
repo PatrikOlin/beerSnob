@@ -16,3 +16,9 @@ main.mainWrapper {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.wishlistContainer {
+  position: absolute;
+  top: 65px;
+  right: 10px;
+}
