@@ -8,6 +8,8 @@ import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { WishlistIconComponent } from './components/wishlist/components/wishlist-icon/wishlist-icon.component';
 import { RatingComponent } from './components/rating/rating.component';
+import { ActionBarComponent } from './components/action-bar/action-bar.component';
+import { ActionComponent } from './components/action-bar/components/action.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { RatingComponent } from './components/rating/rating.component';
     WishlistComponent,
     WishlistIconComponent,
     TopBarComponent,
-    RatingComponent
+    RatingComponent,
+    ActionBarComponent,
+    ActionComponent,
   ],
   imports: [BrowserModule, HttpClientModule],
   providers: [],

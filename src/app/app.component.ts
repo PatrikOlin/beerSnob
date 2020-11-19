@@ -84,6 +84,7 @@ export class AppComponent implements OnInit {
             },
             recent_brews: [...recent],
           };
+          console.log('user', this.user)
         });
       }
     });
@@ -124,7 +125,7 @@ export class AppComponent implements OnInit {
         const style = resp.beer_style;
         const checkins = resp.stats.user_count;
         const authRating = resp.auth_rating;
-        const onWishList = resp.wish_list;
+        const onWishlist = resp.wish_list;
         const bid = resp.bid;
 
         chrome.browserAction.setBadgeText({
@@ -141,7 +142,10 @@ export class AppComponent implements OnInit {
           };
           this.ownCheckins = checkins;
           this.ownRating = authRating;
-          this.isOnWishlist = onWishList;
+          this.isOnWishlist = onWishlist;
+          console.log('ownCheckins', checkins)
+          console.log('ownRating', authRating)
+          console.log('onwishlist', onWishlist)
         });
       });
   }

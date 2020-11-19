@@ -11,5 +11,4 @@ export class TopBarComponent {
   @Input() username = '';
 
   constructor() {}
-
 }

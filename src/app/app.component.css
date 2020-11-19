@@ -11,5 +11,8 @@ main.mainWrapper {
 .mainContainer {
   padding: 20px;
   display: flex;
+  height: 100%;
+  margin-top: 25px;
+  flex-direction: column;
   justify-content: space-between;
 }
