@@ -1,18 +1,27 @@
 ///<reference types="chrome"/>
-import { Component, EventEmitter, Input, NgZone, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-action',
   template: `
-        <div>
+        <div class="actionWrapper">
           <span><i class="material-icons purple md-36">{{ icon }}</i></span>
-          <p class="actionText">{{ text }}</p>
+          <p class="actionText" [innerHTML]="text"></p>
         </div>
       `,
   styles: [`
+    .actionWrapper {
+      width: 80px;
+      margin: auto;
+    }
+
     .actionText {
       font-weight: 700;
-      font-size: 12px;
+      font-size: 16px;
+    }
+
+    .md-36 {
+      width: 36px;
     }
   `],
 })

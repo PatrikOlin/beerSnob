@@ -11,20 +11,20 @@ import Beer from './interfaces/beer';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'Ölbolaget';
   public beer: Beer;
   public ownCheckins: number;
   public ownRating: number;
+  public friendsCheckins: number;
   public isOnWishlist: boolean;
   public authHTML = '';
   public errorMsg = '';
   public hasError = false;
-  private _accessToken = new Subject<string>();
   public accessToken = null;
-  private _isSignedIn = new BehaviorSubject<boolean>(false);
   public isSignedIn = false;
-  private _bkg;
   public user: any;
+  private _accessToken = new Subject<string>();
+  private _isSignedIn = new BehaviorSubject<boolean>(false);
+  private _bkg;
 
   constructor(private ngZone: NgZone, private untappd: UntappdCallerService) {
     this._bkg = chrome.extension.getBackgroundPage();
@@ -127,6 +127,7 @@ export class AppComponent implements OnInit {
         const authRating = resp.auth_rating;
         const onWishlist = resp.wish_list;
         const bid = resp.bid;
+        const friendsCheckins = resp.friends.count
 
         chrome.browserAction.setBadgeText({
           text: rating.toFixed(1),
@@ -143,6 +144,7 @@ export class AppComponent implements OnInit {
           this.ownCheckins = checkins;
           this.ownRating = authRating;
           this.isOnWishlist = onWishlist;
+          this.friendsCheckins = friendsCheckins;
           console.log('ownCheckins', checkins)
           console.log('ownRating', authRating)
           console.log('onwishlist', onWishlist)
