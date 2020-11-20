@@ -40,15 +40,18 @@ export class AppComponent implements OnInit {
         }
       });
     });
-  }
-
-  getSignedInStatus(): Observable<boolean> {
     chrome.storage.onChanged.addListener( (changes, namespace) => {
       for (const key in changes) {
         if (key === 'signedIn') {
           this._isSignedIn.next(changes[key].newValue);
         }
       }
+    });
+  }
+
+  getSignedInStatus(): Observable<boolean> {
+    chrome.storage.sync.get(['signedIn'], (res) => {
+      this._isSignedIn.next(res.signedIn);
     });
     return this._isSignedIn.asObservable();
   }
@@ -169,6 +172,7 @@ export class AppComponent implements OnInit {
     chrome.storage.sync.get(['lastBeer'], (res: any) => {
       console.log('got beer from storage', res);
       this.ngZone.run(() => {
+        chrome.browserAction.setBadgeBackgroundColor({color: '#3C1874'});
         chrome.browserAction.setBadgeText({
           text: res?.lastBeer?.rating.toFixed(1),
         });
