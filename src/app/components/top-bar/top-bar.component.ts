@@ -7,7 +7,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./top-bar.component.css'],
 })
 export class TopBarComponent {
-  title = 'Brygd';
   @Input() username = '';
 
   constructor() {}

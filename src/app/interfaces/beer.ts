@@ -5,4 +5,8 @@ export default interface Beer {
   rating: string;
   ratingCount: number;
   style: string;
+  ownRating: number;
+  ownCheckins: number;
+  friendsCheckins: number;
+  onWishlist: boolean;
 }
