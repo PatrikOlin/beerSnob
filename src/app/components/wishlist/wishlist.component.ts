@@ -5,10 +5,15 @@ import { UntappdCallerService } from 'src/app/services/untappd-caller.service';
 @Component({
   selector: 'app-wishlist',
   template: `
-      <app-wishlist-icon [onWishlist]="onWishlist" (wishlistIconClick)="onClick($event)">
+      <app-wishlist-icon class="wishlistIconWrapper" [onWishlist]="onWishlist" (wishlistIconClick)="onClick($event)">
       </app-wishlist-icon>
       `,
-  styles: [''],
+  styles: [`
+  .wishlistIconWrapper {
+width: 100px;
+margin: 5px;
+}
+`],
 })
 export class WishlistComponent {
   @Input() onWishlist = false;

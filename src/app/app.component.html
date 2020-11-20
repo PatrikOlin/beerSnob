@@ -1,26 +1,18 @@
 <main class="mainWrapper">
-  <h1>{{ title }}</h1>
-  <h4 *ngIf="user">Welcome {{ user.firstName }}</h4>
+<app-top-bar [username]="user?.userName"></app-top-bar>
+<section class="mainContainer">
+  <aside class="wishlistContainer">
+  <app-wishlist [bid]="beer?.bid" [onWishlist]="isOnWishlist"></app-wishlist>
+  </aside>
   <ng-container *ngIf="!hasError && isSignedIn">
-    <section>
-      <h3>
-        {{ beerName }}
-      </h3>
-    </section>
-    <section class="ratingContainer">
-      <p class="rating">{{ beerRating | number: "1.1-2" }}</p>
-      <p *ngIf="beerRatingCount" class="ratingCount">
-        {{ beerRatingCount }} votes
-      </p>
-      <p class="ratingCount">Checked in by You {{ ownCheckins }} times</p>
-      <p *ngIf="ownRating" class="ratingCount">{{ ownRating }}</p>
-      <app-wishlist [bid]="bid" [onWishlist]="isOnWishlist"></app-wishlist>
-      <p *ngIf="beerStyle" class="ratingCount">
-        {{ beerStyle }}
-      </p>
-    </section>
+    <app-rating [beer]="beer"></app-rating>
+    <app-action-bar
+      [friendsCheckins]="friendsCheckins"
+      [ownRating]="ownRating"
+      [ownCheckins]="ownCheckins"
+    >
+    </app-action-bar>
   </ng-container>
-  <!-- <button (click)='forceLoginRefresh()'>Force refresh</button> -->
   <ng-container *ngIf="!hasError && !isSignedIn">
     <app-login></app-login>
   </ng-container>
@@ -31,4 +23,5 @@
       </h3>
     </section>
   </ng-container>
+</section>
 </main>

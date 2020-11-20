@@ -5,13 +5,18 @@ import { Component, EventEmitter, Input, NgZone, Output } from '@angular/core';
   selector: 'app-wishlist-icon',
   template: `<span (click)="onClick()">
         <ng-template [ngIf]="onWishlist" [ngIfElse]="unlisted">
-          <span><i class="fa fa-heart"></i></span>
+          <span><i class="material-icons md-36 purple">favorite</i></span>
         </ng-template>
         <ng-template #unlisted>
-          <span><i class="fa fa-heart-o"></i></span>
+          <span><i class="material-icons md-36 purple">favorite_border</i></span>
         </ng-template>
       </span>`,
-  styles: [''],
+  styles: [`
+  .actionText {
+  font-weight: 700;
+  font-size: 12px;
+  }
+`],
 })
 export class WishlistIconComponent {
   @Input() onWishlist = false;
