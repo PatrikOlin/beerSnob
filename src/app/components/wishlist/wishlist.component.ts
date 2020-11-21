@@ -5,7 +5,13 @@ import { UntappdCallerService } from 'src/app/services/untappd-caller.service';
 @Component({
   selector: 'app-wishlist',
   template: `
-      <app-wishlist-icon class="wishlistIconWrapper" [onWishlist]="onWishlist" (wishlistIconClick)="onClick($event)">
+      <app-wishlist-icon
+        class="wishlistIconWrapper"
+        [onWishlist]="onWishlist"
+        (wishlistIconClick)="onClick($event)"
+        [tooltip]="onWishlist ? 'Ta bort från önskelistan' : 'Lägg till på önskelistan'"
+        [options]="tooltipOpts"
+      >
       </app-wishlist-icon>
       `,
   styles: [`
@@ -18,6 +24,11 @@ margin: 5px;
 export class WishlistComponent {
   @Input() onWishlist = false;
   @Input() bid: number;
+  tooltipOpts = {
+    autoPlacement: 'true',
+    'tooltip-class': 'tooltipStyle',
+    theme: 'light',
+  };
 
   constructor(private untappd: UntappdCallerService) {}
 
@@ -29,6 +40,7 @@ export class WishlistComponent {
       this.untappd.addToWishlist(this.bid)
         .subscribe(() => console.log(`${this.bid} added to wishlist`));
     }
+    this.onWishlist = onWishlist;
   }
 
 }

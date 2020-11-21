@@ -22,6 +22,9 @@ export class AppComponent implements OnInit {
   public lastQuery: string;
   private _accessToken = new Subject<string>();
   private _isSignedIn = new BehaviorSubject<boolean>(false);
+  private _hoptUrl = 'hopt.se';
+  private _glasbUrl = 'glasbanken.se';
+  private _bolagetUrl = 'systembolaget.se';
 
   constructor(private ngZone: NgZone, private untappd: UntappdCallerService) {
   }
@@ -99,7 +102,23 @@ export class AppComponent implements OnInit {
   getBeerFromPage(): void {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]) {
-        const query = tabs[0].title.split('|')[0];
+        let query: string;
+        let pos: number;
+        let name: string;
+        if (tabs[0].url.includes(this._bolagetUrl) ) {
+          query = tabs[0].title.split('|')[0];
+        }
+        if (tabs[0].url.includes(this._hoptUrl)) {
+          pos = tabs[0].url.split('/').length - 1;
+          name = tabs[0].url.split('/')[pos].replace(/-/g, ' ');
+          name = name.replace(/(\d)|(\.[html])\w+/g, '');
+          query = name.replace(/\d/g, '');
+        }
+        if (tabs[0].url.includes(this._glasbUrl)) {
+          pos = tabs[0].url.split('/').length - 2;
+          name = tabs[0].url.split('/')[pos].replace(/-/g, ' ');
+          query = name;
+        }
         chrome.storage.sync.get(['lastQuery'], (res: any) => {
           this.lastQuery = res.lastQuery;
           if (query === this.lastQuery) {
@@ -112,6 +131,7 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
 
   getBeerRating(query: string): void {
     this.untappd

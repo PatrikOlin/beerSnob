@@ -48,13 +48,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.webNavigation.onCompleted.addListener(
-    () => {
-      chrome.tabs.query({ active: true, currentWindow: true }, ([{ id }]) => {
-        chrome.pageAction.show(id);
-      });
-    },
-    { url: [{ urlMatches: 'systembolaget.se' }] }
-  );
-});
+// chrome.runtime.onInstalled.addListener(() => {
+//   chrome.webNavigation.onCompleted.addListener(
+//     () => {
+//       chrome.tabs.query({ active: true, currentWindow: true }, ([{ id }]) => {
+//         chrome.pageAction.show(id);
+//       });
+//     },
+//     { url: [{ urlMatches: 'systembolaget.se' }] }
+//   );
+// });

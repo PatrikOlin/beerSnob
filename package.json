@@ -22,6 +22,7 @@
     "@extend-chrome/events-rxjs": "^0.12.1",
     "material-design-icons": "^3.0.1",
     "milligram": "^1.4.1",
+    "ng2-tooltip-directive": "^2.9.22",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

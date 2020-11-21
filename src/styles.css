@@ -41,6 +41,10 @@ h3 {
   padding-right: 12px;
 }
 
+.tooltipStyle {
+  background-color: var(--white) !important;
+}
+
 /* Material icons. */
 .material-icons.pink { color: var(--pink); }
 .material-icons.purple { color: var(--purple); }

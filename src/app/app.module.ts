@@ -10,6 +10,7 @@ import { WishlistIconComponent } from './components/wishlist/components/wishlist
 import { RatingComponent } from './components/rating/rating.component';
 import { ActionBarComponent } from './components/action-bar/action-bar.component';
 import { ActionComponent } from './components/action-bar/components/action.component';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { ActionComponent } from './components/action-bar/components/action.compo
     ActionBarComponent,
     ActionComponent,
   ],
-  imports: [BrowserModule, HttpClientModule],
+  imports: [BrowserModule, HttpClientModule, TooltipModule],
   providers: [],
   bootstrap: [AppComponent],
 })

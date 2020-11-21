@@ -7,6 +7,7 @@
   <ng-container *ngIf="!hasError && isSignedIn">
     <app-rating [beer]="beer"></app-rating>
     <app-action-bar
+      [beer]="beer"
       [friendsCheckins]="beer?.friendsCheckins"
       [ownRating]="beer?.ownRating"
       [ownCheckins]="beer?.ownCheckins"
