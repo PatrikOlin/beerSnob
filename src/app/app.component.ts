@@ -3,6 +3,8 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { UntappdCallerService } from './services/untappd-caller.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import Beer from './interfaces/beer';
+const oneHour = 3600000;
 
 @Component({
   selector: 'app-root',
@@ -10,29 +12,24 @@ import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'Ölbolaget';
-  public beerName: string;
-  public beerRating: number;
-  public beerRatingCount: number;
-  public beerStyle: string;
-  public ownCheckins: number;
-  public ownRating: number;
-  public isOnWishlist: boolean;
+  public beer: Beer;
   public authHTML = '';
   public errorMsg = '';
   public hasError = false;
-  private _accessToken = new Subject<string>();
   public accessToken = null;
-  private _isSignedIn = new BehaviorSubject<boolean>(false);
   public isSignedIn = false;
-  private _bkg;
   public user: any;
+  public lastQuery: string;
+  private _accessToken = new Subject<string>();
+  private _isSignedIn = new BehaviorSubject<boolean>(false);
+  private _hoptUrl = 'hopt.se';
+  private _glasbUrl = 'glasbanken.se';
+  private _bolagetUrl = 'systembolaget.se';
 
   constructor(private ngZone: NgZone, private untappd: UntappdCallerService) {
-    this._bkg = chrome.extension.getBackgroundPage();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getSignedInStatus().subscribe((res) => {
       this.ngZone.run(() => {
         this.isSignedIn = res;
@@ -45,6 +42,13 @@ export class AppComponent implements OnInit {
           });
         }
       });
+    });
+    chrome.storage.onChanged.addListener( (changes, namespace) => {
+      for (const key in changes) {
+        if (key === 'signedIn') {
+          this._isSignedIn.next(changes[key].newValue);
+        }
+      }
     });
   }
 
@@ -62,47 +66,76 @@ export class AppComponent implements OnInit {
     return this._accessToken.asObservable();
   }
 
-  forceLoginRefresh() {
-    this.ngZone.run(() => {
-      this.isSignedIn = false;
-      this.hasError = false;
+  getUserInfo(): void {
+    chrome.storage.sync.get(['user'], (res) => {
+      if (!res.user || Date.now() - res.user.cachedAt > oneHour) {
+        this.getUserFromUntappd();
+      } else {
+        this.user = res.user;
+      }
     });
   }
 
-  getUserInfo() {
-    this.untappd.getUser().subscribe((res: any) => {
-      if (res?.meta?.code === 200) {
-        this.ngZone.run(() => {
-          const usr = res.response.user;
-          const recent = usr.recent_brews.items.map((x: any) => {
-            return { bid: x.beer.bid, name: x.beer.beer_name };
-          });
-          this.user = {
-            userName: usr.user_name,
-            firstName: usr.first_name,
-            lastName: usr.last_name,
-            stats: {
-              totalBeers: usr.stats.total_beers,
-            },
-            recent_brews: [...recent],
-          };
+  getUserFromUntappd(): void {
+        this.untappd.getUser().subscribe((res: any) => {
+          if (res?.meta?.code === 200) {
+            this.ngZone.run(() => {
+              const usr = res.response.user;
+              const recent = usr.recent_brews.items.map((x: any) => {
+                return { bid: x.beer.bid, name: x.beer.beer_name };
+              });
+              this.user = {
+                userName: usr.user_name,
+                firstName: usr.first_name,
+                lastName: usr.last_name,
+                stats: {
+                  totalBeers: usr.stats.total_beers,
+                },
+                recent_brews: [...recent],
+              };
+              chrome.storage.sync.set({ user: { ...this.user, cachedAt: Date.now() } });
+            });
+          }
+        });
+  }
+
+  getBeerFromPage(): void {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]) {
+        let query: string;
+        let pos: number;
+        let name: string;
+        if (tabs[0].url.includes(this._bolagetUrl) ) {
+          query = tabs[0].title.split('|')[0];
+        }
+        if (tabs[0].url.includes(this._hoptUrl)) {
+          pos = tabs[0].url.split('/').length - 1;
+          name = tabs[0].url.split('/')[pos].replace(/-/g, ' ');
+          name = name.replace(/(\d)|(\.[html])\w+/g, '');
+          query = name.replace(/\d/g, '');
+        }
+        if (tabs[0].url.includes(this._glasbUrl)) {
+          pos = tabs[0].url.split('/').length - 2;
+          name = tabs[0].url.split('/')[pos].replace(/-/g, ' ');
+          query = name;
+        }
+        chrome.storage.sync.get(['lastQuery'], (res: any) => {
+          this.lastQuery = res.lastQuery;
+          if (query === this.lastQuery) {
+            this.getBeerFromStorage();
+          } else {
+            this.getBeerRating(query);
+            chrome.storage.sync.set({ lastQuery: query });
+          }
         });
       }
     });
   }
 
-  getBeerFromPage() {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]) {
-        const name = tabs[0].title.split('|')[0];
-        this.getBeerRating(name);
-      }
-    });
-  }
 
-  getBeerRating(name: string) {
+  getBeerRating(query: string): void {
     this.untappd
-      .searchBeer(name)
+      .searchBeer(query)
       .pipe(
         switchMap((res) =>
           this.untappd.getBeerRating(res.response.beers.items[0].beer.bid)
@@ -116,49 +149,64 @@ export class AppComponent implements OnInit {
         })
       )
       .subscribe((res) => {
+        console.log('got beer from untappd', res);
         this.hasError = false;
         this.errorMsg = '';
-        const rating = res.response.beer.rating_score;
-        const ratingCount = res.response.beer.rating_count;
-        const style = res.response.beer.beer_style;
-        const checkins = res.response.beer.stats.user_count;
-        const authRating = res.response.beer.auth_rating;
-        const onWishList = res.response.beer.wish_list;
+        const resp = res.response.beer;
+        const name = resp.beer_name;
+        const brewery = resp.brewery.brewery_name;
+        const rating = resp.rating_score;
+        const ratingCount = resp.rating_count;
+        const style = resp.beer_style;
+        const ownCheckins = resp.stats.user_count;
+        const ownRating = resp.auth_rating;
+        const onWishlist = resp.wish_list;
+        const bid = resp.bid;
+        const friendsCheckins = resp.friends.count;
 
         chrome.browserAction.setBadgeText({
           text: rating.toFixed(1),
         });
         this.ngZone.run(() => {
-          this.beerName = name;
-          this.beerRating = rating;
-          this.beerRatingCount = ratingCount;
-          this.beerStyle = style;
-          this.ownCheckins = checkins;
-          this.ownRating = authRating;
-          this.isOnWishlist = onWishList;
+          this.beer = {
+            bid,
+            name,
+            brewery,
+            rating,
+            ratingCount,
+            style,
+            ownRating,
+            ownCheckins,
+            friendsCheckins,
+            onWishlist,
+          };
         });
+      },
+      (err) => console.log(err),
+      () => {
+        chrome.storage.sync.set({ lastBeer: { ...this.beer }});
       });
   }
 
-  authUser() {
-    chrome.runtime.sendMessage({ message: 'login' }, function (response) {
+  getBeerFromStorage(): void {
+    chrome.storage.sync.get(['lastBeer'], (res: any) => {
+      console.log('got beer from storage', res);
+      this.ngZone.run(() => {
+        chrome.browserAction.setBadgeBackgroundColor({color: '#3C1874'});
+        chrome.browserAction.setBadgeText({
+          text: res?.lastBeer?.rating.toFixed(1),
+        });
+        this.beer = res?.lastBeer;
+      });
+    });
+  }
+
+  authUser(): void {
+    chrome.runtime.sendMessage({ message: 'login' }, (response) => {
       if (response === 'auth success') {
-        console.log('success in app comp');
-        chrome.storage.local.get(['accessToken'], function (result) {
-          console.log('accessToken is', result);
+        chrome.storage.local.get(['accessToken'], () => {
         });
       }
     });
-    // this.untappd.authUser().subscribe((res) => {
-    //   this.ngZone.run(() => {
-    //     this.authHTML = res;
-    //   });
-    // });
   }
 }
-
-// if (res?.response?.beers?.items[0]?.beer) {
-//   this.noBeerFound = false;
-// } else {
-//   this.noBeerFound = true;
-// }

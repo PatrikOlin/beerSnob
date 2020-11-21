@@ -1,0 +1,10 @@
+.loginWrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.untappdAttribution {
+  margin-top: 20px;
+}

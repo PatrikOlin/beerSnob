@@ -1,24 +1,24 @@
 {
-  "name": "ölbolaget",
-  "version": "0.1",
-  "description": "Bira pirra Birro, bärs bärs beige?",
+  "name": "beerSnob.",
+  "version": "0.0.0.1",
+  "description": "beerSnob will help you to quickly discard all the lesser beers when you searching for your next bottle of liquid courage.",
   "manifest_version": 2,
   "permissions": [
-    "tabs",
     "activeTab",
     "webNavigation",
     "identity",
     "storage",
-    "https://*/*"
+    "https://untappd.com/"
   ],
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAy7wA6tTlaShsHtYTDTiBbVq2XfMRaLCQU4cVL95HZBHQcY1h9h5eOwUkB8EtozBhm+uOqQDpNCrU2TmrQ5tFAMSgfbh7PIYHextQOphXFQWhJzR4i4eRQ10kEqlDAw+WCerfOGZo4WXXPCCRiQ5e9rH9UU8guVWW81vClqozdrRB0SUT+DyQh56g0GNLu5qmACjzSlgE9WkWyHbNf/W1YlxMw7JdZh9WIMBk/ISLJcHKOb5Zm3V+bTtTTRX04XJ7X+7iFbIZSaIgzQGMpvQMWJ4ivqDh2IAFooiBR2Du5sj2+pk9DEXh5QGNOOx4LYtBo58qPxzCwF4SFYu0Fzs27wIDAQAB",
+  "icons": {
+    "16": "assets/icon-16x16.png",
+    "32": "assets/icon-32x32.png"
+  },
+"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAy7wA6tTlaShsHtYTDTiBbVq2XfMRaLCQU4cVL95HZBHQcY1h9h5eOwUkB8EtozBhm+uOqQDpNCrU2TmrQ5tFAMSgfbh7PIYHextQOphXFQWhJzR4i4eRQ10kEqlDAw+WCerfOGZo4WXXPCCRiQ5e9rH9UU8guVWW81vClqozdrRB0SUT+DyQh56g0GNLu5qmACjzSlgE9WkWyHbNf/W1YlxMw7JdZh9WIMBk/ISLJcHKOb5Zm3V+bTtTTRX04XJ7X+7iFbIZSaIgzQGMpvQMWJ4ivqDh2IAFooiBR2Du5sj2+pk9DEXh5QGNOOx4LYtBo58qPxzCwF4SFYu0Fzs27wIDAQAB",
   "background": {
     "scripts": ["background.js", "runtime.js"]
   },
   "browser_action": {
     "default_popup": "index.html"
   }
-  // "page_action": {
-  //   "default_popup": "index.html"
-  // }
 }

@@ -1,10 +1,15 @@
-<main class="mainWrapper">
-  <h1>Connect Untappd account</h1>
+<main class="loginWrapper">
+  <section>
+  <h1>Koppla Untappd-konto</h1>
     <section class="loginContainer">
       <p>
-        This extenstion requires a connection to your Untappd account.
-        Click the button below to allow the extension to access your account on Untappd.
+        Det här tillägget kräver en koppling till ditt Untappd-konto. Klicka på knappen
+        nedan för att logga in på Untappd och ge tillägget åtkomst.
       </p>
     </section>
-  <button (click)="authUser()">Allow access</button>
+  <button (click)="authUser()" class="primaryButton">Koppla konto</button>
+  </section>
+  <section>
+    <img class="untappdAttribution" src="../../assets/pbu_160_grey.png" />  
+  </section>
 </main>

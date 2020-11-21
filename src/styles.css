@@ -1,1 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --pink: #DE354C;
+  --purple: #3C1874;
+  --darkNavy: #283747;
+  --white: #F3F3F3;
+}
+
+* {
+  font-family: "B612", sans-serif;
+  font-size: 16px;
+  color: var(--darkNavy);
+  background: var(--white);
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--pink);
+  padding-bottom: 25px;
+  margin-block-end: 0;
+}
+
+h3 {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.primaryButton {
+  font-family: "B612";
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  background: var(--pink);
+  border: none;
+  border-radius: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.tooltipStyle {
+  background-color: var(--white) !important;
+}
+
+/* Material icons. */
+.material-icons.pink { color: var(--pink); }
+.material-icons.purple { color: var(--purple); }
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
