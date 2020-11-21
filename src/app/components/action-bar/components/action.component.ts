@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-action',
   template: `
-        <div class="actionWrapper">
+        <div class="actionWrapper" [tooltip]="tooltipText" [options]="tooltipOpts">
           <span><i class="material-icons purple md-36">{{ icon }}</i></span>
           <p class="actionText" [innerHTML]="text"></p>
         </div>
@@ -28,5 +28,11 @@ import { Component, Input } from '@angular/core';
 export class ActionComponent {
   @Input() text = '';
   @Input() icon = '';
+  @Input() tooltipText = '';
+  tooltipOpts = {
+    autoPlacement: 'true',
+    'tooltip-class': 'tooltipStyle',
+    theme: 'light',
+  };
 
 }
