@@ -19,6 +19,7 @@ main.mainWrapper {
 
 .wishlistContainer {
   position: absolute;
-  top: 65px;
-  right: 10px;
+  top: 60px;
+  right: 7px;
+  background: none;
 }
