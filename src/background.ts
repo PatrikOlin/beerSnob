@@ -4,7 +4,7 @@ const CLIENT_ID = encodeURIComponent(
 );
 const RESPONSE_TYPE = encodeURIComponent('code');
 const REDIRECT_URI = encodeURIComponent(
-  'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/untappdbolaget'
+  'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/beersnob'
 );
 
 function create_auth_endpoint(): string {
@@ -47,14 +47,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 });
-
-// chrome.runtime.onInstalled.addListener(() => {
-//   chrome.webNavigation.onCompleted.addListener(
-//     () => {
-//       chrome.tabs.query({ active: true, currentWindow: true }, ([{ id }]) => {
-//         chrome.pageAction.show(id);
-//       });
-//     },
-//     { url: [{ urlMatches: 'systembolaget.se' }] }
-//   );
-// });

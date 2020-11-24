@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --pink: #DE354C;
-  --purple: #3C1874;
+  --pink: #de354c;
+  --purple: #3c1874;
   --darkNavy: #283747;
-  --white: #F3F3F3;
+  --white: #f3f3f3;
 }
 
 * {
@@ -46,11 +46,23 @@ h3 {
 }
 
 /* Material icons. */
-.material-icons.pink { color: var(--pink); }
-.material-icons.purple { color: var(--purple); }
+.material-icons.pink {
+  color: var(--pink);
+}
+.material-icons.purple {
+  color: var(--purple);
+}
 
 /* Rules for sizing the icon. */
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-24 {
+  font-size: 24px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
+}

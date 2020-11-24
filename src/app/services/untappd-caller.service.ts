@@ -80,7 +80,7 @@ export class UntappdCallerService {
       client_id: environment.client_id,
       client_secret: environment.client_secret,
       response_type: 'code',
-      redirect_url: 'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/untappdbolaget',
+      redirect_url: 'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/beersnob',
       code: code,
     };
 
