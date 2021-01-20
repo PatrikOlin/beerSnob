@@ -1,5 +1,11 @@
 <main class="actionBarWrapper">
-  <app-action [text]="ratingText" [icon]="'grade'" [tooltipText]="rTooltip"></app-action>
-  <app-action [text]="checkinText" [icon]="'beenhere'" [tooltipText]="cTooltip"></app-action>
-  <app-action [text]="friendsCheckinsText" [icon]="'people_alt'" [tooltipText]="fcTooltip"></app-action>
+  <section *ngFor="let action of actions">
+    <app-action
+      [value]="action.value"
+      [icon]="action.icon"
+      [tooltipText]="action.tooltipText"
+      [beer]="action.beer"
+      [link]="action.link"
+    ></app-action>
+  </section>
 </main>

@@ -1,0 +1,9 @@
+<main class="similarBeersListWrapper">
+  <h4>
+    Öl som liknar <br /><span class="beerName">{{ beer.name }}</span>
+  </h4>
+  <ng-container *ngFor="let beer of beers">
+    <app-similar-beer [beer]="beer"></app-similar-beer>
+    <div class="sep"></div>
+  </ng-container>
+</main>
