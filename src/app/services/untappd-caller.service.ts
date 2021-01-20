@@ -13,7 +13,6 @@ export class UntappdCallerService {
   constructor(private http: HttpClient) {}
 
   set token(token) {
-    console.log('token set as ', token);
     this._token = token;
   }
 
@@ -31,7 +30,7 @@ export class UntappdCallerService {
     return this.http.get(url, { params });
   }
 
-  searchBeer(name): Observable<any> {
+  searchBeer(name: string): Observable<any> {
     const url = `${this.baseurl}/search/beer`;
     const paramsObj = { access_token: this._token, q: name };
     const params = new HttpParams({

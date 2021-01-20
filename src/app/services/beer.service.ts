@@ -1,13 +1,6 @@
 ///<reference types="chrome"/>
 import { Injectable } from '@angular/core';
-import {
-  Subject,
-  Observable,
-  ReplaySubject,
-  throwError,
-  of,
-  EMPTY,
-} from 'rxjs';
+import { Observable, ReplaySubject, throwError, of, EMPTY } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import Beer from '../interfaces/beer';
 import { UntappdCallerService } from 'src/app/services/untappd-caller.service';
@@ -25,7 +18,6 @@ export class BeerService {
   constructor(private untappd: UntappdCallerService) {}
 
   get beer(): Observable<Beer> {
-    console.log('här haru beer');
     return this._beer;
   }
 
@@ -127,7 +119,6 @@ export class BeerService {
         },
         (err) => {
           this.handleError(err);
-          console.log('errorare?', err);
         },
         () => {
           chrome.storage.sync.set({ lastBeer: { ...tempBeer } });
@@ -155,7 +146,6 @@ export class BeerService {
 
   private getBeerFromStorage(): void {
     chrome.storage.sync.get(['lastBeer'], (res: any) => {
-      console.log('got beer from storage', res);
       chrome.browserAction.setBadgeBackgroundColor({ color: '#3C1874' });
       chrome.browserAction.setBadgeText({
         text: res?.lastBeer?.rating?.toFixed(1),

@@ -55,12 +55,9 @@ export class ActionComponent implements OnChanges {
     theme: 'light',
   };
 
-  constructor(private router: Router, private ngZone: NgZone) {
-    console.log('öl i action', this.beer);
-  }
+  constructor(private router: Router, private ngZone: NgZone) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes', changes, changes.beer.currentValue);
     this.ngZone.run(() => {
       this.value = changes.value.currentValue;
       this.icon = changes.icon.currentValue;

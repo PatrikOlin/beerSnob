@@ -95,7 +95,6 @@ export class RatingComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsub$))
       .subscribe(
         (beer: Beer) => {
-          console.log('fick vi beer?', beer);
           this.ngZone.run(() => {
             this.isLoading = false;
             this.hasError = false;
@@ -103,7 +102,6 @@ export class RatingComponent implements OnInit, OnDestroy {
           });
         },
         (err) => {
-          console.log('här har vi err', err);
           this.ngZone.run(() => {
             this.isLoading = false;
             this.hasError = true;
