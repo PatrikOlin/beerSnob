@@ -1,28 +1,11 @@
 <main class="mainWrapper">
-<app-top-bar [username]="user?.userName"></app-top-bar>
-<section class="mainContainer">
-  <aside *ngIf="!hasError && isSignedIn" class="wishlistContainer">
-    <app-wishlist [bid]="beer?.bid" [onWishlist]="beer?.onWishlist"></app-wishlist>
-  </aside>
-  <ng-container *ngIf="!hasError && isSignedIn">
-    <app-rating [beer]="beer"></app-rating>
-    <app-action-bar
-      [beer]="beer"
-      [friendsCheckins]="beer?.friendsCheckins"
-      [ownRating]="beer?.ownRating"
-      [ownCheckins]="beer?.ownCheckins"
-    >
-    </app-action-bar>
-  </ng-container>
-  <ng-container *ngIf="!hasError && !isSignedIn">
-    <app-login></app-login>
-  </ng-container>
-  <ng-container *ngIf="hasError">
-    <section>
-      <h3>
-        {{ errorMsg }}
-      </h3>
-    </section>
-  </ng-container>
-</section>
+  <section class="topWrapper">
+    <span class="topBarWrapper">
+      <app-top-bar></app-top-bar>
+    </span>
+    <span>
+      <app-toolbar></app-toolbar>
+    </span>
+  </section>
+  <router-outlet></router-outlet>
 </main>

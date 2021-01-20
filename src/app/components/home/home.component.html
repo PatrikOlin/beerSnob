@@ -1,0 +1,16 @@
+<main class="mainContainer">
+  <ng-container *ngIf="!hasError && isSignedIn">
+    <app-rating></app-rating>
+    <app-action-bar></app-action-bar>
+  </ng-container>
+  <ng-container *ngIf="!hasError && !isSignedIn">
+    <app-login></app-login>
+  </ng-container>
+  <ng-container *ngIf="hasError">
+    <section>
+      <h3>
+        {{ errorMsg }}
+      </h3>
+    </section>
+  </ng-container>
+</main>

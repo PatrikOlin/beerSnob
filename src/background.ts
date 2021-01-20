@@ -7,6 +7,11 @@ const REDIRECT_URI = encodeURIComponent(
   'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/beersnob'
 );
 
+let _gaq;
+_gaq = _gaq || [];
+_gaq.push(['_setAccount', 'G-4TWBZ6SHBL']);
+_gaq.push(['_trackPageview']);
+
 function create_auth_endpoint(): string {
   const endpointUrl = `${UNTAPPD_URI_ENDPOINT}
 ?client_id=${CLIENT_ID}

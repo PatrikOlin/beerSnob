@@ -1,5 +1,5 @@
 <main class="ratingWrapper">
-  <section class="ratingContainer">
+  <section *ngIf="beer" class="ratingContainer">
     <h3>
       {{ beer?.name }}
     </h3>
@@ -14,4 +14,10 @@
       {{ beer.ratingCount }} röster
     </p>
   </section>
+  <ng-container *ngIf="isLoading">
+    <app-loader></app-loader>
+  </ng-container>
+  <ng-container *ngIf="hasError">
+    {{ errorMsg }}
+  </ng-container>
 </main>

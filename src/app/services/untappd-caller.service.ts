@@ -3,10 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-const console = {
-  bkg: (msg) => chrome.extension.getBackgroundPage()
-};
-
 @Injectable({
   providedIn: 'root',
 })
@@ -17,6 +13,7 @@ export class UntappdCallerService {
   constructor(private http: HttpClient) {}
 
   set token(token) {
+    console.log('token set as ', token);
     this._token = token;
   }
 
@@ -48,7 +45,7 @@ export class UntappdCallerService {
     const url = `${this.baseurl}/beer/info/${bid}`;
     const paramsObj = { access_token: this._token };
     const params = new HttpParams({
-      fromObject: paramsObj
+      fromObject: paramsObj,
     });
 
     return this.http.get(url, { params });
@@ -58,7 +55,7 @@ export class UntappdCallerService {
     const url = `${this.baseurl}/user/wishlist/add`;
     const paramsObj = { access_token: this._token, bid: bid.toString() };
     const params = new HttpParams({
-      fromObject: paramsObj
+      fromObject: paramsObj,
     });
 
     return this.http.get(url, { params });
@@ -68,7 +65,7 @@ export class UntappdCallerService {
     const url = `${this.baseurl}/user/wishlist/delete`;
     const paramsObj = { access_token: this._token, bid: bid.toString() };
     const params = new HttpParams({
-      fromObject: paramsObj
+      fromObject: paramsObj,
     });
 
     return this.http.get(url, { params });
@@ -80,7 +77,8 @@ export class UntappdCallerService {
       client_id: environment.client_id,
       client_secret: environment.client_secret,
       response_type: 'code',
-      redirect_url: 'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/beersnob',
+      redirect_url:
+        'https://ihjjjjkljcndjogahhjgdejlopogagep.chromiumapp.org/beersnob',
       code: code,
     };
 

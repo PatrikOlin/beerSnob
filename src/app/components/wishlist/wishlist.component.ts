@@ -5,21 +5,25 @@ import { UntappdCallerService } from 'src/app/services/untappd-caller.service';
 @Component({
   selector: 'app-wishlist',
   template: `
-      <app-wishlist-icon
-        class="wishlistIconWrapper"
-        [onWishlist]="onWishlist"
-        (wishlistIconClick)="onClick($event)"
-        [tooltip]="onWishlist ? 'Ta bort från önskelistan' : 'Lägg till på önskelistan'"
-        [options]="tooltipOpts"
-      >
-      </app-wishlist-icon>
-      `,
-  styles: [`
-  .wishlistIconWrapper {
-width: 100px;
-margin: 5px;
-}
-`],
+    <app-wishlist-icon
+      class="wishlistIconWrapper"
+      [onWishlist]="onWishlist"
+      (wishlistIconClick)="onClick($event)"
+      [tooltip]="
+        onWishlist ? 'Ta bort från önskelistan' : 'Lägg till på önskelistan'
+      "
+      [options]="tooltipOpts"
+    >
+    </app-wishlist-icon>
+  `,
+  styles: [
+    `
+      .wishlistIconWrapper {
+        width: 100px;
+        margin: 5px;
+      }
+    `,
+  ],
 })
 export class WishlistComponent {
   @Input() onWishlist = false;
@@ -34,13 +38,14 @@ export class WishlistComponent {
 
   onClick(onWishlist: boolean): void {
     if (!onWishlist) {
-      this.untappd.removeFromWishlist(this.bid)
+      this.untappd
+        .removeFromWishlist(this.bid)
         .subscribe(() => console.log(`${this.bid} removed from wishlist`));
     } else {
-      this.untappd.addToWishlist(this.bid)
+      this.untappd
+        .addToWishlist(this.bid)
         .subscribe(() => console.log(`${this.bid} added to wishlist`));
     }
     this.onWishlist = onWishlist;
   }
-
 }

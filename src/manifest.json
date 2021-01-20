@@ -12,6 +12,19 @@
   "background": {
     "scripts": ["background.js", "runtime.js"]
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://hopt.se/*",
+        "https://www.hopt.se/*",
+        "https://glasbanken.se/*",
+        "https://www.glasbanken.se/*",
+        "https://systembolaget.se/*",
+        "https://www.systembolaget.se/*"
+      ],
+      "js": ["contentscript.js"]
+    }
+  ],
   "browser_action": {
     "default_popup": "index.html"
   }

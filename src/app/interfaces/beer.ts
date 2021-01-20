@@ -9,4 +9,5 @@ export default interface Beer {
   ownCheckins: number;
   friendsCheckins: number;
   onWishlist: boolean;
+  similar?: Beer[];
 }

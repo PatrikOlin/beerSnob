@@ -1,0 +1,13 @@
+<main class="toolbarContainer">
+  <aside *ngIf="showWishlist" class="wishlistContainer">
+    <app-wishlist
+      [bid]="beer?.bid"
+      [onWishlist]="beer?.onWishlist"
+    ></app-wishlist>
+  </aside>
+  <aside *ngIf="showBack" class="backContainer">
+    <span (click)="onBackClick()">
+      <i class="material-icons purple md-36">arrow_back_ios</i>
+    </span>
+  </aside>
+</main>
