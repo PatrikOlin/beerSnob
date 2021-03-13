@@ -33,20 +33,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.extractFromPage === "systembolaget") {
     let name = null;
     let brewery = null;
-    const xpath = "//h4[text()='Producent']";
-    const siblingElement = document.evaluate(
-      xpath,
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue;
+    let h1List = document.getElementById("mainContent").querySelectorAll("h1");
+    let h1 = h1List[h1List.length - 1];
+    let parts = h1.innerText.replace(/\r/g, "").split(/\n/);
 
-    brewery = siblingElement.nextSibling.firstChild.innerText;
-    const parentElement = document.querySelectorAll(
-      'h1[class="css-px3mal"]'
-    )[0];
-    name = parentElement.lastChild.innerText;
+    name = parts[1];
+    brewery = parts[0];
 
     sendResponse({ name, brewery });
   }
