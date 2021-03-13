@@ -1,13 +1,12 @@
 ///<reference types="chrome"/>
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { of, Subject, throwError } from 'rxjs';
-import { catchError, switchMap, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import Beer from 'src/app/interfaces/beer';
 import { Loc } from 'src/app/interfaces/location.enum';
 import SearchQuery from 'src/app/interfaces/searchQuery';
 import { BeerService } from 'src/app/services/beer.service';
 import { LocationService } from 'src/app/services/location.service';
-import { UntappdCallerService } from 'src/app/services/untappd-caller.service';
 
 @Component({
   selector: 'app-rating',
@@ -25,6 +24,7 @@ export class RatingComponent implements OnInit, OnDestroy {
   private _hoptUrl = 'hopt.se';
   private _glasbUrl = 'glasbanken.se';
   private _bolagetUrl = 'systembolaget.se';
+  private _hoptimaalUrl = 'hoptimaal.nl';
   private _unsub$ = new Subject<boolean>();
 
   constructor(
@@ -78,6 +78,18 @@ export class RatingComponent implements OnInit, OnDestroy {
           chrome.tabs.sendMessage(
             tabs[0].id,
             { extractFromPage: 'glasbanken' },
+            (res) => {
+              query.brewery = res?.brewery ? res.brewery : '';
+              query.name = res?.name ? res.name : '';
+              this.searchForBeer(query);
+            }
+          );
+        }
+        if (tabs[0].url.includes(this._hoptimaalUrl)) {
+          this.locationService.location = Loc.HOPTIMAAL;
+          chrome.tabs.sendMessage(
+            tabs[0].id,
+            { extractFromPage: 'hoptimaal' },
             (res) => {
               query.brewery = res?.brewery ? res.brewery : '';
               query.name = res?.name ? res.name : '';
