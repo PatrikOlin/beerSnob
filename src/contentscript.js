@@ -42,5 +42,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     sendResponse({ name, brewery });
   }
+  if (request.extractFromPage === "hoptimaal") {
+    let name = null;
+    let brewery = null;
+    let header = document.querySelectorAll("header.title");
+    let parts = header[0].innerText.replace(/\r/g, "").split(/\n/);
+    name = parts[0];
+    brewery = parts[parts.length - 1].replace("Brand: ", "");
+    name = name.replace(brewery, "");
+
+    sendResponse({ name, brewery });
+  }
+
   sendResponse({ error: "NO MATCH" });
 });
